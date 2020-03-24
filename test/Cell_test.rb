@@ -3,8 +3,6 @@ require 'minitest/pride'
 require './lib/Cell'
 require './lib/Ship'
 
-require "pry"
-
 class CellTest < Minitest::Test
 
   def setup
@@ -12,7 +10,6 @@ class CellTest < Minitest::Test
   end
 
   def test_if_cell_new_works
-    binding.pry
     assert_equal @cell1, "B4"
   end
 
