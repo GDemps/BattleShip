@@ -6,11 +6,19 @@ require './lib/Ship'
 class CellTest < Minitest::Test
 
   def setup
-    @cell1 = Cell.new("B4")
+    @cell = Cell.new("B4")
   end
 
-  def test_if_cell_new_works
-    assert_equal @cell1, "B4"
+  def test_it_works
+    assert_instance_of Cell, @cell
+  end
+
+  def test_coordinate_value
+    assert_equal "B4", @cell.coordinate
+  end
+
+  def test_ship_element
+    assert_nil nil, @cell.ship
   end
 
 end
