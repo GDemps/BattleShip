@@ -73,4 +73,23 @@ class CellTest < Minitest::Test
     assert_equal "H", cell_1.render
   end
 
+  def test_render_hit_and_sink
+    cruiser = Ship.new("Cruiser", 3)
+    cell_1 = Cell.new("B4")
+    cell_1.place_ship(cruiser)
+    cell_1.fire_upon
+    cell_1.fire_upon
+    cell_1.fire_upon
+    assert_equal "X", cell_1.render
+  end
+
+  def test_render_reveal_ship
+    cruiser = Ship.new("Cruiser", 3)
+    cell_2 = Cell.new("C3")
+    cell_2.place_ship(cruiser)
+    reveal_ship = true
+    cell_2.render(reveal_ship)
+    assert_equal "S", cell_2.render
+  end
+
 end

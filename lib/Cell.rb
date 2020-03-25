@@ -32,11 +32,15 @@ require './lib/Ship'
     end
   end
 
-  def render
+  def render(reveal_ship = false)
     if @cell_has_been_hit && !@ship
       "M"
+    elsif @ship && @ship.sunk?
+      "X"
     elsif @cell_has_been_hit && @ship
       "H"
+    elsif reveal_ship && !@cell_has_been_hit && @ship
+      "S"
     else
       "."
     end
