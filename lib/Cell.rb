@@ -27,9 +27,6 @@ require './lib/Ship'
 
   def fire_upon
     @cell_has_been_hit = true
-   # ship has been placed here
-   # and if its hit the health is
-   # affected if its not then health
-   # isnt affected
+    @ship.hit
   end
 end
