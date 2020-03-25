@@ -27,6 +27,19 @@ require './lib/Ship'
 
   def fire_upon
     @cell_has_been_hit = true
-    @ship.hit
+    if @ship
+      @ship.hit
+    end
   end
+
+  def render
+    if @cell_has_been_hit && !@ship
+      "M"
+    elsif @cell_has_been_hit && @ship
+      "H"
+    else
+      "."
+    end
+  end
+
 end

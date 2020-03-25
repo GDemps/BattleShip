@@ -53,4 +53,24 @@ class CellTest < Minitest::Test
     @cell.fire_upon
     assert_equal 2, @cell.ship.health
   end
+
+  def test_render_cell_not_fired_upon
+    cell_1 = Cell.new("B4")
+    assert_equal ".", cell_1.render
+  end
+
+  def test_render_cell_not_fire_upon
+    cell_1 = Cell.new("B4")
+    cell_1.fire_upon
+    assert_equal "M", cell_1.render
+  end
+
+  def test_render_cell_hit
+    cruiser = Ship.new("Cruiser", 3)
+    cell_1 = Cell.new("B4")
+    cell_1.place_ship(cruiser)
+    cell_1.fire_upon
+    assert_equal "H", cell_1.render
+  end
+
 end
