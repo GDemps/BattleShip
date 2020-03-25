@@ -3,10 +3,10 @@ class Ship
               :health,
               :length
 
-  def initialize(name, health)
+  def initialize(name, length)
     @name = name
-    @health = health
-    @length = 3
+    @health = length
+    @length = length
   end
 
   def sunk?
@@ -14,6 +14,6 @@ class Ship
   end
 
   def hit
-    @health -= 1    
+    @health -= 1
   end
 end
