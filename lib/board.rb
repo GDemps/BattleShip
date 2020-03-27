@@ -25,4 +25,23 @@ class Board
   def valid_coordinate?(coordinate)
     @cells.keys.include? coordinate.to_sym
   end
+
+  def coordinate_consecutive?(coordinates)
+    coordinate_integers = coordinates.map do |coordinate|
+      coordinate[-1].to_i
+    end
+     number_sets = coordinate_integers.each_cons(2)
+     number_sets.all? do |a, b|
+       b == a + 1
+     end
+  end
+
+  def valid_placement?(ship, coordinates)
+    if coordinates.count != ship.length
+      return false 
+    end
+    if coordinates.count == ship.length
+      coordinate_consecutive?(coordinates)
+    end
+  end
 end
