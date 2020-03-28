@@ -23,7 +23,7 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    @cells.keys.include? coordinate.to_sym
+    @cells.keys.include?(coordinate.to_sym)
   end
 
   def valid_placement?(ship, coordinates)
@@ -39,7 +39,9 @@ class Board
         is_valid = false
       end
     end
-    return is_valid if is_valid == false
+    if is_valid == false
+      return is_valid
+    end
 
     coord_letters_ordinals = get_coord_letters(coordinates)
     coord_numbers = get_coord_numbers(coordinates)
@@ -48,7 +50,7 @@ class Board
     if are_consecutive?(coord_numbers) && are_the_same?(coord_letters_ordinals)
       true
     #step 2 check for vertical placement
-  elsif are_consecutive?(coord_letters_ordinals) && are_the_same?(coord_numbers)
+    elsif are_consecutive?(coord_letters_ordinals) && are_the_same?(coord_numbers)
       true
     #step 3 not horizontal or vertical return false
     else
