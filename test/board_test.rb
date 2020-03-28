@@ -31,12 +31,24 @@ class BoardTest < Minitest::Test
     #could put this test in valid_coordinate
   end
 
-  def test_there_is_a_valid_placement
+  def test_there_is_a_valid_placement_horizontally
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
+
     assert_equal false, board.valid_placement?(cruiser, ["A1", "A2"])
     assert_equal false, board.valid_placement?(submarine, ["A2", "A3", "A4"])
     assert_equal false, board.valid_placement?(cruiser, ["A1", "A2", "A4"])
+    assert_equal false, board.valid_placement?(cruiser, ["B1", "A2", "C3"])
+
+    assert_equal true, board.valid_placement?(submarine, ["A1", "A2"])
+    assert_equal true, board.valid_placement?(cruiser, ["A2", "A3", "A4"])
   end
+
+  # def test_there_is_a_valid_placement_vertically
+  #   board = Board.new
+  #   cruiser = Ship.new("Cruiser", 3)
+  #   assert_equal true, board.valid_placement?(cruiser, ["A1", "B1", "C1"])
+  #   assert_equal false, board.valid_placement?(cruiser, ["A1", "B2", "B3"])
+  # end
 end

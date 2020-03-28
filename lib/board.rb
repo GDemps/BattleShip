@@ -30,18 +30,21 @@ class Board
     coordinate_integers = coordinates.map do |coordinate|
       coordinate[-1].to_i
     end
-     number_sets = coordinate_integers.each_cons(2)
-     number_sets.all? do |a, b|
-       b == a + 1
-     end
+    is_valid = true
+    coordinate_integers[0...-1].each_with_index do |num, index|
+      if coordinate_integers[index + 1] - num != 1
+        is_valid = false
+      end
+    end
+    is_valid
   end
 
   def valid_placement?(ship, coordinates)
     if coordinates.count != ship.length
-      return false 
+      return false
     end
     if coordinates.count == ship.length
-      coordinate_consecutive?(coordinates)
+      return coordinate_consecutive?(coordinates)
     end
   end
 end
