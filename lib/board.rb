@@ -26,25 +26,63 @@ class Board
     @cells.keys.include? coordinate.to_sym
   end
 
-  def coordinate_consecutive?(coordinates)
-    coordinate_integers = coordinates.map do |coordinate|
+  def valid_placement?(ship, coordinates)
+    # if coordinates are not the same length as the ship, return false
+    if coordinates.count != ship.length
+      return false
+    end
+
+    # if coordinate are not valid, return false
+    is_valid = true
+    coordinates.each do |coordinate|
+      if valid_coordinate?(coordinate) == false
+        is_valid = false
+      end
+    end
+    return is_valid if is_valid == false
+
+    coord_letters_ordinals = get_coord_letters(coordinates)
+    coord_numbers = get_coord_numbers(coordinates)
+
+    #step 1 check for horizontal placement
+    if are_consecutive?(coord_numbers) && are_the_same?(coord_letters_ordinals)
+      true
+    #step 2 check for vertical placement
+  elsif are_consecutive?(coord_letters_ordinals) && are_the_same?(coord_numbers)
+      true
+    #step 3 not horizontal or vertical return false
+    else
+      false
+    end
+  end
+
+  def get_coord_letters(coordinates)
+    #return the ordinal value of the letter so we can do consecutive comparison
+    #for instance A is 65, B is 66
+    coordinates.map do |coordinate|
+      coordinate[0].ord
+    end
+  end
+
+  def get_coord_numbers(coordinates)
+    coordinates.map do |coordinate|
       coordinate[-1].to_i
     end
+  end
+
+  def are_consecutive?(array)
     is_valid = true
-    coordinate_integers[0...-1].each_with_index do |num, index|
-      if coordinate_integers[index + 1] - num != 1
+    array[0...-1].each_with_index do |num, index|
+      #only iterate over from the first to second to last one
+      if array[index + 1] - num != 1
         is_valid = false
       end
     end
     is_valid
   end
 
-  def valid_placement?(ship, coordinates)
-    if coordinates.count != ship.length
-      return false
-    end
-    if coordinates.count == ship.length
-      return coordinate_consecutive?(coordinates)
-    end
+  def are_the_same?(array)
+    array.uniq.count == 1
   end
+
 end
