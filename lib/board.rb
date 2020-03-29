@@ -1,3 +1,6 @@
+require './lib/Cell'
+require "pry";
+
 class Board
   attr_reader :cells
 
@@ -85,6 +88,10 @@ class Board
 
   def are_the_same?(array)
     array.uniq.count == 1
+  end
+
+  def place(ship, coordinates)
+    valid_placement?(ship, coordinates)
   end
 
 end

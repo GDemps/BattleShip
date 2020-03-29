@@ -3,7 +3,6 @@ require 'minitest/pride'
 require './lib/Cell'
 require './lib/Ship'
 require './lib/board'
-require 'pry'
 
 class BoardTest < Minitest::Test
 
@@ -61,4 +60,11 @@ class BoardTest < Minitest::Test
     assert_equal false, board.valid_placement?(cruiser, ["A1", "B2", "C3"])
     assert_equal false, board.valid_placement?(submarine, ["C2", "D3"])
   end
+
+  def test_ship_has_a_place
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    assert_equal true, board.place(cruiser, ["A1", "A2", "A3"])
+  end
+
 end
