@@ -1,5 +1,4 @@
 require './lib/Cell'
-require "pry";
 
 class Board
   attr_reader :cells
@@ -92,9 +91,16 @@ class Board
 
   def place(ship, coordinates)
     coordinates.each do |coordinate|
-
-    cells[coordinate].place_ship(ship)
+      cells[coordinate].place_ship(ship)
     end
   end
 
+  def render(reveal_ship = false)
+    rendered_cell = ""
+    cells.each do |cell|
+       rendered_cell += cell[1].render(reveal_ship) + " "
+    end
+    " 1 2 3 4 \nA " +rendered_cell[0..7] + "\nB " + rendered_cell[8..15] + "\nC " + rendered_cell[16..23] + "\nD " + rendered_cell[24..33] + "\n"
+  end
+  #@cells.keys.to_s.split
 end

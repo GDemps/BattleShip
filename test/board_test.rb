@@ -71,13 +71,22 @@ class BoardTest < Minitest::Test
     assert_equal cruiser, board.cells["A1"].ship
     assert_equal cruiser, board.cells["A2"].ship
     assert_equal cruiser, board.cells["A3"].ship
-    binding.pry
   end
 
   def test_cells_all_have_ships
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
     board.place(cruiser, ["A1", "A2", "A3"])
-    binding.pry
+  end
+
+  def test_board_render
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.render
+    expected =" 1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+    expected1=" 1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+    assert_equal expected, board.render
+    assert_equal expected1, board.render(true)
   end
 end
