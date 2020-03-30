@@ -25,7 +25,8 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    @cells.keys.include?(coordinate)
+    @cells.keys.include?(coordinate) && cells[coordinate].ship == nil
+
   end
 
   def valid_placement?(ship, coordinates)
@@ -42,7 +43,7 @@ class Board
       end
     end
     if is_valid == false
-      return is_valid
+        return is_valid
     end
 
     coord_letters_ordinals = get_coord_letters(coordinates)
@@ -58,6 +59,7 @@ class Board
     else
       false
     end
+
   end
 
   def get_coord_letters(coordinates)
@@ -102,5 +104,5 @@ class Board
     end
     " 1 2 3 4 \nA " +rendered_cell[0..7] + "\nB " + rendered_cell[8..15] + "\nC " + rendered_cell[16..23] + "\nD " + rendered_cell[24..33] + "\n"
   end
-  #@cells.keys.to_s.split
+  
 end
