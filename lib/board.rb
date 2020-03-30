@@ -26,7 +26,8 @@ class Board
   end
 
   def valid_coordinate?(coordinate)
-    @cells.keys.include?(coordinate)
+    @cells.keys.include?(coordinate) && cells[coordinate].ship == nil
+
   end
 
   def valid_placement?(ship, coordinates)
@@ -43,7 +44,7 @@ class Board
       end
     end
     if is_valid == false
-      return is_valid
+        return is_valid
     end
 
     coord_letters_ordinals = get_coord_letters(coordinates)
@@ -59,6 +60,7 @@ class Board
     else
       false
     end
+
   end
 
   def get_coord_letters(coordinates)
@@ -92,7 +94,6 @@ class Board
 
   def place(ship, coordinates)
     coordinates.each do |coordinate|
-
     cells[coordinate].place_ship(ship)
     end
   end
