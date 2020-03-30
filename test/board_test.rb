@@ -89,4 +89,15 @@ class BoardTest < Minitest::Test
     cell_3 = board.cells["A3"]
     assert_equal false, board.valid_placement?(submarine, ["A1", "B2"])
   end
+    
+  def test_board_render
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.render
+    expected =" 1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+    expected1=" 1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+    assert_equal expected, board.render
+    assert_equal expected1, board.render(true)
+  end
 end
