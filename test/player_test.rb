@@ -28,6 +28,18 @@ class PlayerTest < Minitest::Test
   def test_has_lost?
   player = Player.new("Frank", @board)
   cruiser = Ship.new("Cruiser", 3)
+  submarine = Ship.new("Submarine", 2)
+  @board.place(cruiser, ["A1","A2", "A3"])
+  @board.place(submarine, ["B2", "B3"])
   assert_equal false, player.has_lost?
+  end
+
+  def test_has_lost_returns_true_when_health_zero
+    player = Player.new("Frank", @board)
+    cruiser = Ship.new("Cruiser", 0)
+    submarine = Ship.new("Submarine", 0)
+    @board.place(cruiser, [])
+    @board.place(submarine, [])
+    assert_equal true, player.has_lost?
   end
 end

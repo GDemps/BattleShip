@@ -71,6 +71,7 @@ class BoardTest < Minitest::Test
     assert_equal cruiser, board.cells["A1"].ship
     assert_equal cruiser, board.cells["A2"].ship
     assert_equal cruiser, board.cells["A3"].ship
+    binding.pry
   end
 
   def test_cells_all_have_ships

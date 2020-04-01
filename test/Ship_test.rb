@@ -16,6 +16,7 @@ class ShipTest < Minitest::Test
   end
 
   def test_it_has_health
+    lol
     cruiser = Ship.new("Cruiser", 3)
     assert_equal 3, cruiser.health
   end

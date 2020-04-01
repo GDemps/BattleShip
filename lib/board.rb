@@ -1,9 +1,11 @@
 require './lib/cell'
 
 class Board
-  attr_reader :cells
+  attr_reader :cells,
+              :ships
 
   def initialize
+    @ships = []
     @cells =     {
           "A1" => Cell.new("A1"),
           "A2" => Cell.new("A2"),
@@ -92,6 +94,7 @@ class Board
   end
 
   def place(ship, coordinates)
+    @ships << ship
     coordinates.each do |coordinate|
       cells[coordinate].place_ship(ship)
     end

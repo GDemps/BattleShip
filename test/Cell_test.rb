@@ -88,8 +88,7 @@ class CellTest < Minitest::Test
     cell_2 = Cell.new("C3")
     cell_2.place_ship(cruiser)
     reveal_ship = true
-    cell_2.render(reveal_ship)
-    assert_equal "S", cell_2.render
+    assert_equal "S", cell_2.render(reveal_ship)
   end
 
 end
