@@ -7,12 +7,11 @@ class Player
     @name = name
   end
 
-  def combined_ship_health(health)
-    cruiser + submarine
+  def combined_ship_health
+    board.ships.sum(&:health)
   end
 
   def has_lost?
-    #require 'pry'; binding.pry
-    board.combined_ship_health == 0
+    combined_ship_health == 0
   end
 end
