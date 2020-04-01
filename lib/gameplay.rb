@@ -12,20 +12,15 @@ class Gameplay
     p "Enter battle to play, or if you prefer peace, enter Q to quit."
 
     battle = gets.chomp
-
-        if battle == "battle"
-          computer_board = Board.new
-          player_board = Board.new
-          @computer_board = computer_board
-          cruiser = Ship.new("Cruiser", 3)
-          @cruiser = cruiser
-          submarine = Ship.new("Submarine", 2)
-          @submarine = submarine
+    if true# battle == "battle"
+          @computer_board = Board.new
+          @player_board = Board.new
+          @cruiser = Ship.new("Cruiser", 3)
+          @submarine = Ship.new("Submarine", 2)
           place_computers_ships
+
           #computer uses the place_ship method to
           #place_human_player_ships
-
-
         else
           puts "Oh, I see you prefer peace!"
         end
@@ -58,26 +53,21 @@ class Gameplay
                             ["B4", "C4"],
                             ["C4", "D4"]]
 
-    computer_place_sub_coordinate = []
-    computer_place_sub_coordinate << sub_array_of_options.sample
-      @computer_board.valid_placement?(@submarine, computer_place_sub_coordinate.flatten) == true
-      @computer_board.place(@submarine, computer_place_sub_coordinate.flatten)
+    computer_place_sub_coordinate = sub_array_of_options.sample
+    @computer_board.place(@submarine, computer_place_sub_coordinate)
 
     cruiser_array_of_options = [["A1", "A2", "A3"], ["A2", "A3", "A4"],
-                        ["B1", "B2", "B3"], ["B2", "B3", "B4"],
-                        ["C1", "C2", "C3"], ["C2", "C3", "C4"],
-                        ["D1", "D2", "D3"], ["D2", "D3", "D4"],
-                        ["A1", "B1", "C1"], ["B1", "C1", "D1"],
-                        ["A2", "B2", "C2"], ["B2", "C2", "D2"],
-                        ["A3", "B3", "C3"], ["B3", "C3", "D3"],
-                        ["A4", "B4", "C4"], ["B4", "C4", "D4"]]
-    computer_place_cruiser_coordinate = []
-    computer_place_cruiser_coordinate << cruiser_array_of_options.sample
+                                ["B1", "B2", "B3"], ["B2", "B3", "B4"],
+                                ["C1", "C2", "C3"], ["C2", "C3", "C4"],
+                                ["D1", "D2", "D3"], ["D2", "D3", "D4"],
+                                ["A1", "B1", "C1"], ["B1", "C1", "D1"],
+                                ["A2", "B2", "C2"], ["B2", "C2", "D2"],
+                                ["A3", "B3", "C3"], ["B3", "C3", "D3"],
+                                ["A4", "B4", "C4"], ["B4", "C4", "D4"]]
+    computer_place_cruiser_coordinate = cruiser_array_of_options.sample
+    @computer_board.place(@cruiser, computer_place_cruiser_coordinate.flatten)
 
-    if @computer_board.valid_placement?(@cruiser, computer_place_cruiser_coordinate.flatten) == true
-      @computer_board.place(@cruiser, computer_place_cruiser_coordinate.flatten)
-    end
-
+    # ensure no overlap
   end
 
   def place_human_player_ships
