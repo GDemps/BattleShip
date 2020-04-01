@@ -12,13 +12,14 @@ class Gameplay
     p "Enter battle to play, or if you prefer peace, enter Q to quit."
 
     battle = gets.chomp
-    if true# battle == "battle"
+
+    if battle == "battle"
           @computer_board = Board.new
           @player_board = Board.new
           @cruiser = Ship.new("Cruiser", 3)
           @submarine = Ship.new("Submarine", 2)
           place_computers_ships
-
+          place_human_player_ships
           #computer uses the place_ship method to
           #place_human_player_ships
         else
@@ -71,16 +72,32 @@ class Gameplay
   end
 
   def place_human_player_ships
-    "I have laid out my ships on the grid.
-    You now need to lay out your two ships.
-    The Cruiser is three units long and the Submarine is two units long.
-    1 2 3 4
-    A . . . .
-    B . . . .
-    C . . . .
-    D . . . .
-    Enter the squares for the Cruiser (3 spaces):"
+    @player_board = Board.new
+    p "I have laid out my ships on the grid."
+    p "You now need to lay out your two ships."
+    p "The Cruiser is three units long and the Submarine is two units long."
+    p @player_board.render
 
+    # p "  1 2 3 4 "
+    # p "A . . . . "
+    # p "B . . . . "
+    # p "C . . . . "
+    # p "D . . . . "
+    p "Enter the squares for the Cruiser (3 spaces):"
+
+
+    cruiserinput = gets.chomp
+    if @player_board.valid_placement?(@cruiser, cruiserinput.split(" ")) == false
+      p "Try again!"
+    
+      @player_board.place(@cruiser, cruiserinput.split(" "))
+      p @player_board.render(true)
+      p "Enter the squares for the Submarine (2 spaces):"
+      submarineinput = gets.chomp
+      @player_board.place(@submarine, submarineinput.split(" "))
+      @player_board.render(true)
+      require "pry"; binding.pry
+    end
 
   end
 
