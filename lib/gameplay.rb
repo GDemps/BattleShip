@@ -1,6 +1,7 @@
 require './lib/board.rb'
 require './lib/cell.rb'
 require './lib/ship.rb'
+require 'pry'
 
 class Gameplay
   def initialize
@@ -76,7 +77,7 @@ class Gameplay
     p "I have laid out my ships on the grid."
     p "You now need to lay out your two ships."
     p "The Cruiser is three units long and the Submarine is two units long."
-    p @player_board.render
+    puts @player_board.render
 
     # p "  1 2 3 4 "
     # p "A . . . . "
@@ -85,20 +86,35 @@ class Gameplay
     # p "D . . . . "
     p "Enter the squares for the Cruiser (3 spaces):"
 
+    coordinates_validated = false
+    cruiserinput = nil
+    until coordinates_validated == true
+      cruiserinput = gets.chomp
+      coordinates_validated = @player_board.valid_placement?(@cruiser, cruiserinput.upcase.split(" "))
+      if coordinates_validated == false
+        p "Those are invalid coordinates. Please try again:"
+      end
+    end
 
-    cruiserinput = gets.chomp
-    if @player_board.valid_placement?(@cruiser, cruiserinput.split(" ")) == false
-      p "Try again!"
-    
-      @player_board.place(@cruiser, cruiserinput.split(" "))
-      p @player_board.render(true)
+      @player_board.place(@cruiser, cruiserinput.upcase.split(" "))
+      puts @player_board.render(true)
+
       p "Enter the squares for the Submarine (2 spaces):"
-      submarineinput = gets.chomp
-      @player_board.place(@submarine, submarineinput.split(" "))
-      @player_board.render(true)
-      require "pry"; binding.pry
+
+      coordinates_validated = false
+      subinput = nil
+      until coordinates_validated == true
+         subinput = gets.chomp
+         binding.pry
+         coordinates_validated = @player_board.valid_placement?(@submarine, subinput.upcase.split(" "))
+         if coordinates_validated == false
+           p "Those are invalid coordinates. Please try again:"
+         end
+      end
+
+      @player_board.place(@submarine, subinput.upcase.split(" "))
+
+      puts @player_board.render(true)
     end
 
   end
-
-end
