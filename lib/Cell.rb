@@ -1,5 +1,5 @@
 class Cell
-require './lib/Ship'
+require './lib/ship'
 
   attr_reader :coordinate
 
