@@ -50,7 +50,6 @@ class Board
 
     coord_letters_ordinals = get_coord_letters(coordinates)
     coord_numbers = get_coord_numbers(coordinates)
-
     #step 1 check for horizontal placement
     if are_consecutive?(coord_numbers) && are_the_same?(coord_letters_ordinals)
       true
@@ -61,7 +60,6 @@ class Board
     else
       false
     end
-
   end
 
   def get_coord_letters(coordinates)
