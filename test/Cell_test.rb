@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/Cell'
-require './lib/Ship'
+require './lib/cell'
+require './lib/ship'
 
 class CellTest < Minitest::Test
 
