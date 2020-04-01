@@ -1,4 +1,4 @@
-require './lib/Cell'
+require './lib/cell'
 
 class Board
   attr_reader :cells
@@ -104,5 +104,5 @@ class Board
     end
     " 1 2 3 4 \nA " +rendered_cell[0..7] + "\nB " + rendered_cell[8..15] + "\nC " + rendered_cell[16..23] + "\nD " + rendered_cell[24..33] + "\n"
   end
-  
+
 end

@@ -1,8 +1,8 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/Cell'
-require './lib/Ship'
-require './lib/board'
+require './lib/board.rb'
+require './lib/cell.rb'
+require './lib/ship.rb'
 
 class BoardTest < Minitest::Test
 
@@ -89,7 +89,7 @@ class BoardTest < Minitest::Test
     cell_3 = board.cells["A3"]
     assert_equal false, board.valid_placement?(submarine, ["A1", "B2"])
   end
-    
+
   def test_board_render
     board = Board.new
     cruiser = Ship.new("Cruiser", 3)
