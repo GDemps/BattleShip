@@ -7,8 +7,8 @@ class Player
     @name = name
   end
 
-  def combined_ship_health(health)
-    cruiser + submarine
+  def combined_ship_health
+    cruiser.health + submarine.health
   end
 
   def has_lost?
