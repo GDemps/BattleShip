@@ -15,15 +15,16 @@ class Gameplay
     battle = gets.chomp
 
         if battle == "battle"
-          game_board = Board.new
-          @game_board = game_board
+          computer_board = Board.new
+          player_board = Board.new
+          @computer_board = computer_board
           cruiser = Ship.new("Cruiser", 3)
           @cruiser = cruiser
           submarine = Ship.new("Submarine", 2)
           @submarine = submarine
           place_computers_ships
           #computer uses the place_ship method to
-          place_human_player_ships
+          #place_human_player_ships
 
 
         else
@@ -60,8 +61,8 @@ class Gameplay
 
     computer_place_sub_coordinate = []
     computer_place_sub_coordinate << sub_array_of_options.sample
-      @game_board.valid_placement?(@submarine, computer_place_sub_coordinate.flatten) == true
-      @game_board.place(@submarine, computer_place_sub_coordinate.flatten)
+      @computer_board.valid_placement?(@submarine, computer_place_sub_coordinate.flatten) == true
+      @computer_board.place(@submarine, computer_place_sub_coordinate.flatten)
 
     cruiser_array_of_options = [["A1", "A2", "A3"], ["A2", "A3", "A4"],
                         ["B1", "B2", "B3"], ["B2", "B3", "B4"],
@@ -74,10 +75,10 @@ class Gameplay
     computer_place_cruiser_coordinate = []
     computer_place_cruiser_coordinate << cruiser_array_of_options.sample
 
-    if @game_board.valid_placement?(@cruiser, computer_place_cruiser_coordinate.flatten) == true
-      @game_board.place(@cruiser, computer_place_cruiser_coordinate.flatten)
+    if @computer_board.valid_placement?(@cruiser, computer_place_cruiser_coordinate.flatten) == true
+      @computer_board.place(@cruiser, computer_place_cruiser_coordinate.flatten)
     end
-    binding.pry
+
   end
 
   def place_human_player_ships
