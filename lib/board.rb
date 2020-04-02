@@ -27,9 +27,12 @@ class Board
         }
   end
 
-  def valid_coordinate?(coordinate)
+  def valid_coordinate_placement?(coordinate)
     @cells.keys.include?(coordinate) && cells[coordinate].ship == nil
+  end
 
+  def valid_coordinate_shot?(coordinate)
+    @cells.keys.include?(coordinate)
   end
 
   def valid_placement?(ship, coordinates)
@@ -41,7 +44,7 @@ class Board
     # if coordinate are not valid, return false
     is_valid = true
     coordinates.each do |coordinate|
-      if valid_coordinate?(coordinate) == false
+      if valid_coordinate_placement?(coordinate) == false
         is_valid = false
       end
     end
@@ -104,7 +107,7 @@ class Board
     cells.each do |cell|
        rendered_cell += cell[1].render(reveal_ship) + " "
     end
-    " 1 2 3 4 \nA " +rendered_cell[0..7] + "\nB " + rendered_cell[8..15] + "\nC " + rendered_cell[16..23] + "\nD " + rendered_cell[24..33] + "\n"
+    "1 2 3 4 \nA " +rendered_cell[0..7] + "\nB " + rendered_cell[8..15] + "\nC " + rendered_cell[16..23] + "\nD " + rendered_cell[24..33] + "\n"
   end
 
 end
