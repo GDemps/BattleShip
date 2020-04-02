@@ -15,7 +15,6 @@ class BoardTest < Minitest::Test
     board = Board.new
     assert_equal 16, board.cells.count
     assert_equal "A1", board.cells.keys.first
-    #assert_equal play with .last method to double double check
     assert_instance_of Cell, board.cells.values.first
   end
 
@@ -27,7 +26,6 @@ class BoardTest < Minitest::Test
   def test_valid_coordinate_false?
     board = Board.new
     assert_equal false, board.valid_coordinate?("A5")
-    #could put this test in valid_coordinate
   end
 
   def test_coordinates_same_length_as_ship

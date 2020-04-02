@@ -1,16 +1,16 @@
 require './lib/board.rb'
 require './lib/cell.rb'
 require './lib/ship.rb'
-require 'pry'
 
 class Gameplay
+
   def initialize
 
   end
 
   def start
-    p "Welcome to BATTLESHIP!!!"
-    p "Enter battle to play, or if you prefer peace, enter Q to quit."
+    puts "=============WELCOME TO BATTLESHIP!============="
+    puts "Enter battle to play or Q to quit."
 
     battle = gets.chomp
 
@@ -21,15 +21,25 @@ class Gameplay
           @submarine = Ship.new("Submarine", 2)
           place_computers_ships
           place_human_player_ships
-          turn
 
+          until @computer_board.has_lost? || @player_board.has_lost? do
+            turn
+          end
+          puts "Someone won!"
+	         puts "\e[31m _~-~-~-~-~_\e[0m"
+	         puts "\e[31m/           \\\e[0m"
+	         puts "\e[31m(            )\e[0m"
+	         puts "\e[31m -          -\e[0m"
+	         puts "\e[31m  (        )\e[0m"
+	         puts " \e[31m   |    |\e[0m"
+	         puts "\e[31m      /X\\\e[0m"
+	         puts "\e[31mc----/   \\------>\e[0m"
         else
-          puts "Oh, I see you prefer peace!"
+          puts "We are in the midst of a pandemic...games are your only option."
         end
   end
 
   def place_computers_ships
-    #choices = @game_board.cells.keys
     sub_array_of_options = [["A1", "A2"],
                             ["A2", "A3"],
                             ["A3", "A4"],
@@ -67,23 +77,18 @@ class Gameplay
                                 ["A3", "B3", "C3"], ["B3", "C3", "D3"],
                                 ["A4", "B4", "C4"], ["B4", "C4", "D4"]]
     computer_place_cruiser_coordinate = cruiser_array_of_options.sample
+    # todo should not overlap
     @computer_board.place(@cruiser, computer_place_cruiser_coordinate.flatten)
 
   end
 
   def place_human_player_ships
     @player_board = Board.new
-    p "I have laid out my ships on the grid."
-    p "You now need to lay out your two ships."
-    p "The Cruiser is three units long and the Submarine is two units long."
+    puts "I, the computer, have laid out my ships on the grid."
+    puts "You now need to lay out your two ships."
+    puts "The Cruiser is three units long and the Submarine is two units long."
     puts @player_board.render
-
-    # p "  1 2 3 4 "
-    # p "A . . . . "
-    # p "B . . . . "
-    # p "C . . . . "
-    # p "D . . . . "
-    p "Enter the squares for the Cruiser (3 spaces):"
+    puts "Enter the squares for the Cruiser (3 spaces):"
 
     coordinates_validated = false
     cruiserinput = nil
@@ -114,33 +119,18 @@ class Gameplay
     end
 
     def turn
-      puts "=============COMPUTER BOARD============="
-      puts @computer_board.render(true)
+      render_boards
 
-      puts "==============PLAYER BOARD=============="
-      puts @player_board.render(true)
       p "Enter the coordinate for your shot:"
 
-      coordinate_validated = false
-      shot_coordinate = nil
-      until coordinate_validated == true
-        shot_coordinate = gets.chomp
-        coordinate_validated = @computer_board.cells.include?(shot_coordinate.upcase)
-        if coordinate_validated == false
-          p "Please enter a valid coordinate:"
-        end
-      end
-      @computer_board.cells[shot_coordinate.upcase].fire_upon
+      shot_coordinate = get_coordinate_from_player
+      @computer_board.fire_upon(shot_coordinate)
 
-      coordinate_validated = false
-      shot_coordinate = nil
-      until coordinate_validated == true
-        shot_coordinate = @player_board.cells.keys.sample
-        coordinate_validated = @player_board.cells.include?(shot_coordinate)
-      end
+      random_shot_coordinate = get_random_coordinate
+      @player_board.fire_upon(random_shot_coordinate)
+    end
 
-      @player_board.cells[shot_coordinate.upcase].fire_upon
-
+    def render_boards
       puts "=============COMPUTER BOARD============="
       puts @computer_board.render
 
@@ -148,4 +138,30 @@ class Gameplay
       puts @player_board.render(true)
     end
 
+    def get_coordinate_from_player
+      coordinate_validated = false
+      shot_coordinate = nil
+      until coordinate_validated == true
+        shot_coordinate = gets.chomp.upcase
+
+        coordinate_validated = @computer_board.valid_coordinate_shot?(shot_coordinate)
+        if coordinate_validated == false
+          p "Please enter a valid coordinate:"
+        end
+      end
+      shot_coordinate
+    end
+
+    def get_random_coordinate
+      coordinate_validated = false
+      random_shot_coordinate = nil
+      until coordinate_validated == true
+        available_coordinate = @player_board.cells.keys.select do |coordinate|
+          @player_board.cells[coordinate].fired_upon? == false
+        end
+        random_shot_coordinate = available_coordinate.sample
+        coordinate_validated = @player_board.valid_coordinate_shot?(random_shot_coordinate)
+      end
+      random_shot_coordinate
+    end
   end
