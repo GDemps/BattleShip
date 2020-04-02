@@ -1,6 +1,7 @@
 require './lib/board.rb'
 require './lib/cell.rb'
 require './lib/ship.rb'
+require 'pry'
 
 class Gameplay
   def initialize
@@ -20,8 +21,8 @@ class Gameplay
           @submarine = Ship.new("Submarine", 2)
           place_computers_ships
           place_human_player_ships
-          #computer uses the place_ship method to
-          #place_human_player_ships
+          turn
+
         else
           puts "Oh, I see you prefer peace!"
         end
@@ -68,7 +69,6 @@ class Gameplay
     computer_place_cruiser_coordinate = cruiser_array_of_options.sample
     @computer_board.place(@cruiser, computer_place_cruiser_coordinate.flatten)
 
-    # ensure no overlap
   end
 
   def place_human_player_ships
@@ -76,7 +76,7 @@ class Gameplay
     p "I have laid out my ships on the grid."
     p "You now need to lay out your two ships."
     p "The Cruiser is three units long and the Submarine is two units long."
-    p @player_board.render
+    puts @player_board.render
 
     # p "  1 2 3 4 "
     # p "A . . . . "
@@ -85,20 +85,67 @@ class Gameplay
     # p "D . . . . "
     p "Enter the squares for the Cruiser (3 spaces):"
 
+    coordinates_validated = false
+    cruiserinput = nil
+    until coordinates_validated == true
+      cruiserinput = gets.chomp
+      coordinates_validated = @player_board.valid_placement?(@cruiser, cruiserinput.upcase.split(" "))
+      if coordinates_validated == false
+        p "Those are invalid coordinates. Please try again:"
+      end
+    end
 
-    cruiserinput = gets.chomp
-    if @player_board.valid_placement?(@cruiser, cruiserinput.split(" ")) == false
-      p "Try again!"
-    
-      @player_board.place(@cruiser, cruiserinput.split(" "))
-      p @player_board.render(true)
+      @player_board.place(@cruiser, cruiserinput.upcase.split(" "))
+      puts @player_board.render(true)
+
       p "Enter the squares for the Submarine (2 spaces):"
-      submarineinput = gets.chomp
-      @player_board.place(@submarine, submarineinput.split(" "))
-      @player_board.render(true)
-      require "pry"; binding.pry
+
+      coordinates_validated = false
+      subinput = nil
+      until coordinates_validated == true
+         subinput = gets.chomp
+         coordinates_validated = @player_board.valid_placement?(@submarine, subinput.upcase.split(" "))
+         if coordinates_validated == false
+           p "Those are invalid coordinates. Please try again:"
+         end
+      end
+
+      @player_board.place(@submarine, subinput.upcase.split(" "))
+    end
+
+    def turn
+      puts "=============COMPUTER BOARD============="
+      puts @computer_board.render(true)
+
+      puts "==============PLAYER BOARD=============="
+      puts @player_board.render(true)
+      p "Enter the coordinate for your shot:"
+
+      coordinate_validated = false
+      shot_coordinate = nil
+      until coordinate_validated == true
+        shot_coordinate = gets.chomp
+        coordinate_validated = @computer_board.cells.include?(shot_coordinate.upcase)
+        if coordinate_validated == false
+          p "Please enter a valid coordinate:"
+        end
+      end
+      @computer_board.cells[shot_coordinate.upcase].fire_upon
+
+      coordinate_validated = false
+      shot_coordinate = nil
+      until coordinate_validated == true
+        shot_coordinate = @player_board.cells.keys.sample
+        coordinate_validated = @player_board.cells.include?(shot_coordinate)
+      end
+
+      @player_board.cells[shot_coordinate.upcase].fire_upon
+
+      puts "=============COMPUTER BOARD============="
+      puts @computer_board.render
+
+      puts "==============PLAYER BOARD=============="
+      puts @player_board.render(true)
     end
 
   end
-
-end
