@@ -27,8 +27,16 @@ class Board
         }
   end
 
+  def combined_ship_health
+    ships.sum(&:health)
+  end
+
+  def has_lost?
+    combined_ship_health == 0
+  end
+
   def valid_coordinate_placement?(coordinate)
-    @cells.keys.include?(coordinate) && cells[coordinate].ship == nil
+    @cells.keys.include?(coordinate) && cells[coordinate].fired_upon? == false && cells[coordinate].ship == nil
   end
 
   def valid_coordinate_shot?(coordinate)
@@ -36,12 +44,10 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    # if coordinates are not the same length as the ship, return false
     if coordinates.count != ship.length
       return false
     end
 
-    # if coordinate are not valid, return false
     is_valid = true
     coordinates.each do |coordinate|
       if valid_coordinate_placement?(coordinate) == false
@@ -54,21 +60,16 @@ class Board
 
     coord_letters_ordinals = get_coord_letters(coordinates)
     coord_numbers = get_coord_numbers(coordinates)
-    #step 1 check for horizontal placement
     if are_consecutive?(coord_numbers) && are_the_same?(coord_letters_ordinals)
       true
-    #step 2 check for vertical placement
     elsif are_consecutive?(coord_letters_ordinals) && are_the_same?(coord_numbers)
       true
-    #step 3 not horizontal or vertical return false
     else
       false
     end
   end
 
   def get_coord_letters(coordinates)
-    #return the ordinal value of the letter so we can do consecutive comparison
-    #for instance A is 65, B is 66
     coordinates.map do |coordinate|
       coordinate[0].ord
     end
@@ -83,7 +84,6 @@ class Board
   def are_consecutive?(array)
     is_valid = true
     array[0...-1].each_with_index do |num, index|
-      #only iterate over from the first to second to last one
       if array[index + 1] - num != 1
         is_valid = false
       end

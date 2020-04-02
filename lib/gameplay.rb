@@ -3,6 +3,7 @@ require './lib/cell.rb'
 require './lib/ship.rb'
 
 class Gameplay
+
   def initialize
 
   end
@@ -20,15 +21,25 @@ class Gameplay
           @submarine = Ship.new("Submarine", 2)
           place_computers_ships
           place_human_player_ships
-          turn
 
+          until @computer_board.has_lost? || @player_board.has_lost? do
+            turn
+          end
+          puts "Someone won!"
+	         puts "\e[31m _~-~-~-~-~_\e[0m"
+	         puts "\e[31m/           \\\e[0m"
+	         puts "\e[31m(            )\e[0m"
+	         puts "\e[31m -          -\e[0m"
+	         puts "\e[31m  (        )\e[0m"
+	         puts " \e[31m   |    |\e[0m"
+	         puts "\e[31m      /X\\\e[0m"
+	         puts "\e[31mc----/   \\------>\e[0m"
         else
           puts "We are in the midst of a pandemic...games are your only option."
         end
   end
 
   def place_computers_ships
-    #choices = @game_board.cells.keys
     sub_array_of_options = [["A1", "A2"],
                             ["A2", "A3"],
                             ["A3", "A4"],
@@ -66,6 +77,7 @@ class Gameplay
                                 ["A3", "B3", "C3"], ["B3", "C3", "D3"],
                                 ["A4", "B4", "C4"], ["B4", "C4", "D4"]]
     computer_place_cruiser_coordinate = cruiser_array_of_options.sample
+    # todo should not overlap
     @computer_board.place(@cruiser, computer_place_cruiser_coordinate.flatten)
 
   end
@@ -116,8 +128,6 @@ class Gameplay
 
       random_shot_coordinate = get_random_coordinate
       @player_board.fire_upon(random_shot_coordinate)
-
-      render_boards
     end
 
     def render_boards
@@ -146,8 +156,11 @@ class Gameplay
       coordinate_validated = false
       random_shot_coordinate = nil
       until coordinate_validated == true
-        random_shot_coordinate = @player_board.cells.keys.sample
-        coordinate_validated = @player_board.cells.include?(shot_coordinate)
+        available_coordinate = @player_board.cells.keys.select do |coordinate|
+          @player_board.cells[coordinate].fired_upon? == false
+        end
+        random_shot_coordinate = available_coordinate.sample
+        coordinate_validated = @player_board.valid_coordinate_shot?(random_shot_coordinate)
       end
       random_shot_coordinate
     end
