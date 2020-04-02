@@ -107,7 +107,10 @@ class Board
     cells.each do |cell|
        rendered_cell += cell[1].render(reveal_ship) + " "
     end
-    "1 2 3 4 \nA " +rendered_cell[0..7] + "\nB " + rendered_cell[8..15] + "\nC " + rendered_cell[16..23] + "\nD " + rendered_cell[24..33] + "\n"
+    "  1 2 3 4 \nA " +rendered_cell[0..7] + "\nB " + rendered_cell[8..15] + "\nC " + rendered_cell[16..23] + "\nD " + rendered_cell[24..33] + "\n"
   end
 
+  def fire_upon(coordinate)
+    cells[coordinate].fire_upon
+  end
 end
